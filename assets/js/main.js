@@ -43,28 +43,24 @@
     closeBtn.innerHTML = '&times;';
     links.appendChild(closeBtn);
 
-    let savedScroll = 0;
+    const blockScroll = e => e.preventDefault();
 
     const openNav = () => {
-      savedScroll = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${savedScroll}px`;
-      document.body.style.width = '100%';
       burger.classList.add('is-open');
       links.classList.add('is-open');
       nav.classList.add('nav--open');
       burger.setAttribute('aria-expanded', 'true');
+      document.addEventListener('touchmove', blockScroll, { passive: false });
+      document.addEventListener('wheel', blockScroll, { passive: false });
     };
 
     const closeNav = () => {
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-      window.scrollTo(0, savedScroll);
       burger.classList.remove('is-open');
       links.classList.remove('is-open');
       nav.classList.remove('nav--open');
       burger.setAttribute('aria-expanded', 'false');
+      document.removeEventListener('touchmove', blockScroll);
+      document.removeEventListener('wheel', blockScroll);
     };
 
     burger.addEventListener('click', () =>
