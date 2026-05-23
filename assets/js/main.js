@@ -36,16 +36,43 @@
   const burger = document.querySelector('.nav__burger');
   const links = document.querySelector('.nav__links');
   if (burger && links) {
-    burger.addEventListener('click', () => {
-      burger.classList.toggle('is-open');
-      links.classList.toggle('is-open');
-    });
-    links.querySelectorAll('a').forEach(a =>
-      a.addEventListener('click', () => {
-        burger.classList.remove('is-open');
-        links.classList.remove('is-open');
-      })
+    /* Add close (×) button inside the drawer */
+    const closeBtn = document.createElement('button');
+    closeBtn.setAttribute('aria-label', 'Close menu');
+    closeBtn.style.cssText = 'position:absolute;top:22px;right:22px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50%;font-size:22px;color:#fff;cursor:pointer;z-index:2';
+    closeBtn.innerHTML = '&times;';
+    links.appendChild(closeBtn);
+
+    let savedScroll = 0;
+
+    const openNav = () => {
+      savedScroll = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${savedScroll}px`;
+      document.body.style.width = '100%';
+      burger.classList.add('is-open');
+      links.classList.add('is-open');
+      nav.classList.add('nav--open');
+      burger.setAttribute('aria-expanded', 'true');
+    };
+
+    const closeNav = () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, savedScroll);
+      burger.classList.remove('is-open');
+      links.classList.remove('is-open');
+      nav.classList.remove('nav--open');
+      burger.setAttribute('aria-expanded', 'false');
+    };
+
+    burger.addEventListener('click', () =>
+      burger.classList.contains('is-open') ? closeNav() : openNav()
     );
+    closeBtn.addEventListener('click', closeNav);
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
   }
 
   /* ---------- Hero glow follows mouse ---------- */
