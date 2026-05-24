@@ -66,12 +66,12 @@
 
       <!-- RIGHT: form -->
       <div class="contact-form">
-        <!--
-          TODO: Wire this form to your mail server.
-          Replace action="" with your endpoint (PHP mailer / SMTP handler).
-          Fields: name, company, role, event_type, message.
-        -->
-        <form action="#" method="POST" id="contact-form" novalidate>
+        <form action="https://api.web3forms.com/submit" method="POST" id="contact-form" novalidate>
+          <input type="hidden" name="access_key" value="b4b0ffbc-a630-49a5-ae79-7aa3995063e5">
+          <input type="hidden" name="to" value="anujay@neverordinary.co">
+          <input type="hidden" name="subject" value="New Project Brief — Never Ordinary">
+          <input type="hidden" name="from_name" value="Never Ordinary Website">
+          <input type="checkbox" name="botcheck" style="display:none">
 
           <div class="form-row">
             <div class="form-group">
@@ -118,6 +118,12 @@
             Send the brief <span class="arr">→</span>
           </button>
           <p class="form-note">We read every message. We respond to all of them — usually within one business day.</p>
+          <div id="form-success" style="display:none;margin-top:20px;padding:18px 24px;background:#0B0B0B;color:#fff;border-radius:12px;font-weight:600">
+            Your brief is with us. We'll be in touch shortly.
+          </div>
+          <div id="form-error" style="display:none;margin-top:20px;padding:18px 24px;background:#FF5A3C;color:#0B0B0B;border-radius:12px;font-weight:600">
+            Something went wrong. Please email us directly at hello@neverordinary.co
+          </div>
 
         </form>
       </div>

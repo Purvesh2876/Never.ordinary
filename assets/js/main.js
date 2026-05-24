@@ -133,4 +133,37 @@
 
   /* ---------- Year stamp ---------- */
   document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
+
+  /* ---------- Contact form (Web3Forms) ---------- */
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = contactForm.querySelector('button[type="submit"]');
+      const success = document.getElementById('form-success');
+      const error = document.getElementById('form-error');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: new FormData(contactForm)
+        });
+        const data = await res.json();
+        if (data.success) {
+          success.style.display = 'block';
+          error.style.display = 'none';
+          contactForm.reset();
+        } else {
+          throw new Error();
+        }
+      } catch {
+        error.style.display = 'block';
+        success.style.display = 'none';
+      } finally {
+        btn.innerHTML = 'Send the brief <span class="arr">→</span>';
+        btn.disabled = false;
+      }
+    });
+  }
 })();
